@@ -18,7 +18,9 @@ import java.util.List;
 @RequestMapping("/sys/menu")
 @Controller
 public class MenuController extends BaseController {
-	String prefix = "system/menu";
+
+	private String prefix = "system/menu";
+
 	@Autowired
 	MenuService menuService;
 
@@ -32,8 +34,7 @@ public class MenuController extends BaseController {
 	@RequestMapping("/list")
 	@ResponseBody
 	List<MenuDO> list() {
-		List<MenuDO> menus = menuService.list();
-		return menus;
+		return menuService.list();
 	}
 
 	@Log("添加菜单")
@@ -113,16 +114,12 @@ public class MenuController extends BaseController {
 	@GetMapping("/tree")
 	@ResponseBody
 	Tree<MenuDO> tree() {
-		Tree<MenuDO> tree = new Tree<MenuDO>();
-		tree = menuService.getTree();
-		return tree;
+		return menuService.getTree();
 	}
 
 	@GetMapping("/tree/{roleId}")
 	@ResponseBody
 	Tree<MenuDO> tree(@PathVariable("roleId") Long roleId) {
-		Tree<MenuDO> tree = new Tree<MenuDO>();
-		tree = menuService.getTree(roleId);
-		return tree;
+		return menuService.getTree(roleId);
 	}
 }

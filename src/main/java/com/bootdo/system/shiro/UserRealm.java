@@ -16,10 +16,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class UserRealm extends AuthorizingRealm {
-/*	@Autowired
-	UserDao userMapper;
-	@Autowired
-	MenuService menuService;*/
 
 	/**
 	 * 权限认证，为当前登录的Subject授予角色和权限
