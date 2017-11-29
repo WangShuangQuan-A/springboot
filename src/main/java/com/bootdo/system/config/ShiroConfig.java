@@ -46,7 +46,7 @@ public class ShiroConfig {
 	@Bean
 	public SessionManager sessionManager() {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-		Collection<SessionListener> listeners = new ArrayList<SessionListener>();
+		Collection<SessionListener> listeners = new ArrayList<>();
 		listeners.add(new BDSessionListener());
 		sessionManager.setSessionListeners(listeners);
 		sessionManager.setSessionDAO(sessionDAO());
@@ -62,13 +62,23 @@ public class ShiroConfig {
 		return manager;
 	}
 
+	/**
+	 * authc：该过滤器下的页面必须验证后才能访问，它是Shiro内置的一个拦截器org.apache.shiro.web.filter.authc.FormAuthenticationFilter
+	 * anon：匿名访问无需拦截，它对应的过滤器里面是空的,什么都没做
+	 * @param securityManager
+	 * @return
+	 */
 	@Bean
 	ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+		// 必须设置 SecurityManager
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
+		// 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
 		shiroFilterFactoryBean.setLoginUrl("/login");
+		// 登录成功后要跳转的连接
 		shiroFilterFactoryBean.setSuccessUrl("/index");
 		shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+		// authc：该过滤器下的页面必须验证后才能访问，它是Shiro内置的一个拦截器org.apache.shiro.web.filter.authc.FormAuthenticationFilter
 		LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 		filterChainDefinitionMap.put("/css/**", "anon");
 		filterChainDefinitionMap.put("/js/**", "anon");
@@ -82,6 +92,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/", "anon");
 		filterChainDefinitionMap.put("/blog", "anon");
 		filterChainDefinitionMap.put("/blog/open/**", "anon");
+		filterChainDefinitionMap.put("/login", "anon");
 		filterChainDefinitionMap.put("/**", "authc");
 
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

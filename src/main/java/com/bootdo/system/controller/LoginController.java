@@ -56,11 +56,16 @@ public class LoginController extends BaseController {
 	R ajaxLogin(String username, String password) {
 		password = MD5Utils.encrypt(username, password);
 		UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-		Subject subject = SecurityUtils.getSubject();
+		Subject currentUser = SecurityUtils.getSubject();
 		try {
-			subject.login(token);
-			return R.ok();
+			currentUser.login(token);
 		} catch (AuthenticationException e) {
+			return R.error("用户或密码错误");
+		}
+		if(currentUser.isAuthenticated()) {
+			return R.ok();
+		}else {
+			token.clear();
 			return R.error("用户或密码错误");
 		}
 	}
