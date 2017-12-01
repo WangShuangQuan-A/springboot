@@ -7,14 +7,17 @@ import com.bootdo.common.utils.MD5Utils;
 import com.bootdo.common.utils.R;
 import com.bootdo.common.utils.ShiroUtils;
 import com.bootdo.system.domain.MenuDO;
+import com.bootdo.system.domain.UserDO;
 import com.bootdo.system.service.MenuService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +33,9 @@ public class LoginController extends BaseController {
 	@Autowired
 	MenuService menuService;
 
+	@Autowired
+	SimpMessagingTemplate template;
+
 	@GetMapping({ "/", "" })
 	String welcome(Model model) {
 		return "redirect:/blog";
@@ -42,6 +48,7 @@ public class LoginController extends BaseController {
 		model.addAttribute("menus", menus);
 		model.addAttribute("name", getUser().getName());
 		model.addAttribute("username", getUser().getUsername());
+		model.addAttribute("userId", getUser().getUserId().toString());
 		return "index_v1";
 	}
 

@@ -298,10 +298,11 @@
 <script src="/js/appjs/oa/webSocket/stomp.min.js"></script>
 <!-- Toastr script -->
 <script src="/js/plugins/toastr/toastr.min.js"></script>
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
     var stompClient = null;
     $(function () {
-        connect();
+        //connect();
+        connect1();
     });
 
     function connect() {
@@ -310,6 +311,34 @@
         stompClient.connect({}, function (frame) {//链接Web Socket的服务端。
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/getResponse', function (response) { //订阅/topic/getResponse 目标发送的消息。这个是在控制器的@SendTo中定义的。
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-right",
+                    "onclick": null,
+                    "showDuration": "400",
+                    "hideDuration": "1000",
+                    "timeOut": "7000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr.info(JSON.parse(response.body).responseMessage);
+            });
+        });
+    }
+
+
+    function connect1() {
+        var socket = new SockJS('/endpointWisely'); //链接SockJS 的endpoint 名称为"/endpointWisely"
+        stompClient = Stomp.over(socket);//使用stomp子协议的WebSocket 客户端
+        stompClient.connect({name : "test"}, function (frame) {//链接Web Socket的服务端。
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/user/testhahahhaha', function (response) { //订阅/topic/getResponse 目标发送的消息。这个是在控制器的@SendTo中定义的。
+                alert("222");
                 toastr.options = {
                     "closeButton": true,
                     "debug": false,
