@@ -1,4 +1,4 @@
-package com.bootdo.oa.config;
+package com.bootdo.system.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -15,18 +15,18 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer{
 
     /**
-     * endPoint 注册协议节点,并映射指定的URl
+     * endPoint 注册STOMP协议节点(endPoint),并映射指定的URl
      * @param registry
      */
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        //注册一个Stomp 协议的endpoint,并指定 SockJS协议。
+        //注册一个STOMP 协议的endpoint,并指定使用SockJS协议。
         registry.addEndpoint("/endpointWisely").withSockJS();
         //registry.addEndpoint("/test").withSockJS();
     }
 
     /**
-     * 配置消息代理(message broker)
+     * 配置消息代理(Message broker)
      * @param registry
      */
     @Override
