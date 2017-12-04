@@ -95,6 +95,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/login", "anon");
 		filterChainDefinitionMap.put("/**", "authc");
 		filterChainDefinitionMap.put("/endpointWisely", "anon");
+		filterChainDefinitionMap.put("/chat", "anon");
 
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return shiroFilterFactoryBean;

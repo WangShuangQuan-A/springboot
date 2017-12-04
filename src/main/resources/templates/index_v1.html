@@ -63,7 +63,7 @@
                 </a>
                     <ul class="nav nav-second-level">
                         <li><a id="index001" class="J_menuItem" href="index_v1.html"
-                               data-index="0" th:href="@{/main}">了解BootDo</a></li>
+                               data-index="0" onclick="send()">了解BootDo</a></li>
                     </ul>
                 </li>
                 <li th:each="menu : ${menus}"><a href="#"> <i
@@ -304,10 +304,10 @@
         //connect();
         connect1();
     });
+    var socket = new SockJS('/endpointWisely'); //链接SockJS 的endpoint 名称为"/endpointWisely"
+    stompClient = Stomp.over(socket);//使用stomp子协议的WebSocket 客户端
 
     function connect() {
-        var socket = new SockJS('/endpointWisely'); //链接SockJS 的endpoint 名称为"/endpointWisely"
-        stompClient = Stomp.over(socket);//使用stomp子协议的WebSocket 客户端
         stompClient.connect({}, function (frame) {//链接Web Socket的服务端。
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/getResponse', function (response) { //订阅/topic/getResponse 目标发送的消息。这个是在控制器的@SendTo中定义的。
@@ -333,12 +333,11 @@
 
 
     function connect1() {
-        var socket = new SockJS('/endpointWisely'); //链接SockJS 的endpoint 名称为"/endpointWisely"
+        var socket = new SockJS('/WeChat'); //链接SockJS 的endpoint 名称为"/endpointWisely"
         stompClient = Stomp.over(socket);//使用stomp子协议的WebSocket 客户端
-        stompClient.connect({name : "test"}, function (frame) {//链接Web Socket的服务端。
+        stompClient.connect({name:"chat"}, function (frame) {//链接Web Socket的服务端。
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/user/testhahahhaha', function (response) { //订阅/topic/getResponse 目标发送的消息。这个是在控制器的@SendTo中定义的。
-                alert("222");
+            stompClient.subscribe('/user/chat1/chat', function (response) { //订阅/topic/getResponse 目标发送的消息。这个是在控制器的@SendTo中定义的。
                 toastr.options = {
                     "closeButton": true,
                     "debug": false,
@@ -357,6 +356,10 @@
                 toastr.info(JSON.parse(response.body).responseMessage);
             });
         });
+
+    }
+    function send() {
+        stompClient.send("/chat",{},JSON.stringify({name:'test'}));
     }
 
     var wrapper = new Vue({

@@ -22,7 +22,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer{
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         //注册一个STOMP 协议的endpoint,并指定使用SockJS协议。
         registry.addEndpoint("/endpointWisely").withSockJS();
-        //registry.addEndpoint("/test").withSockJS();
+        registry.addEndpoint("/WeChat").withSockJS();
     }
 
     /**
@@ -33,7 +33,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer{
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         //广播式应配置一个/topic 消息代理
         registry.enableSimpleBroker("/topic","/user");
-//        registry.setApplicationDestinationPrefixes("/app");  //设置客户端订阅消息的基础路径
-        registry.setUserDestinationPrefix("/user/");
+        //registry.setApplicationDestinationPrefixes("/app");  //设置客户端订阅消息的基础路径
+        //registry.setUserDestinationPrefix("/user/");
     }
 }
